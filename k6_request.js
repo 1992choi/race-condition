@@ -8,5 +8,9 @@ export const options = {
 
 // 테스트 시나리오
 export default function () {
-    http.post('http://localhost:8080/variable/stock');
+    // 3.4 ~ 3.5
+    // http.post('http://localhost:8080/variable/stock');
+
+    // 3.6
+    http.post('http://localhost:8080/variable/stock-atomic');
 }

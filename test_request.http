@@ -1,8 +1,13 @@
+# 3.4 ~ 3.5
 ### 공유 변수 테스트 - 현재 카운트 조회
 GET http://localhost:8080/variable/stock
 
 ### 공유 변수 테스트 - 카운트 증가
 POST http://localhost:8080/variable/stock
 
-### 공유 변수 테스트 - 카운트 초기화
-POST http://localhost:8080/variable/stock-reset
+# 3.6
+### 공유 변수 테스트 - 현재 카운트 조회 (Atomic 사용)
+GET http://localhost:8080/variable/stock-atomic
+
+### 공유 변수 테스트 - 카운트 증가 (Atomic 사용)
+POST http://localhost:8080/variable/stock-atomic

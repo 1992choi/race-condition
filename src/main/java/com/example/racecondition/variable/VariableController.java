@@ -18,14 +18,19 @@ public class VariableController {
         return variableService.increaseStock();
     }
 
-    @PostMapping("/stock-reset")
-    public void postStockReset() {
-        variableService.resetStock();
-    }
-
     @GetMapping("/stock")
     public Long getStock() {
         return variableService.getStock();
+    }
+
+    @PostMapping("/stock-atomic")
+    public Long postStockAtomic() {
+        return variableService.increaseStockAtomic();
+    }
+
+    @GetMapping("/stock-atomic")
+    public Long getStockAtomic() {
+        return variableService.getStockAtomic();
     }
 
 }

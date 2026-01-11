@@ -81,9 +81,9 @@
   - VariableService.java > 3.5. 코드 주석 해제
   - k6 실행 > test_request.http로 카운트 조회
 - 결과
-    - 1000번 호출 -> 조회되는값은 1000
+  - 1000번 호출 -> 조회되는값은 1000
 - 정리
-    - synchronized 혹은 ReentrantLock을 사용하면, 정확히 1000이 증가한다.
+  - synchronized 혹은 ReentrantLock을 사용하면, 정확히 1000이 증가한다.
 
 ### 3.6. Atomic 클래스
 - 순서
@@ -96,8 +96,17 @@
 ### 4.8. 실습 환경 만들기
 - 순서
   - product_entity 테이블에 데이터 밀어넣기 (id=1 / stock=0) 
-  - k6 실행 > test_request.http로 카운트 조회
+  - k6 실행 > DB로 데이터 확인
 - 결과
   - 1000번 호출 -> 조회되는 값은 1000이 아님
 - 정리
   - 동시성에 대한 고려를 하지 않으면, 경쟁 상태로 인하여 의도하지 않은 결과를 초래할 수 있다.
+
+### 4.9. 공유 DB에 사용하는 syncronized, ReentrantLock
+- 순서
+  - product_entity 테이블에 데이터 밀어넣기 (id=1 / stock=0)
+  - k6 실행 > DB로 데이터 확인
+- 결과
+  - 1000번 호출 -> 조회되는값은 1000
+- 정리
+  - synchronized 혹은 ReentrantLock을 사용하면, 정확히 1000이 증가한다.

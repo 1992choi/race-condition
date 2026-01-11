@@ -66,6 +66,16 @@
         - 주로 CAS 기반 알고리즘으로 구현
         - lock은 임계 영역에 대한 배타적 접근을 강제하여 동시성을 제한하고, lock-free는 동시 접근 경쟁을 허용하되 블로킹 없이 진행을 보장한다
 
+### @Transactional과 (synchronized 혹은 ReentrantLock) 동시사용
+- synchronized 혹은 ReentrantLock만 사용했을 때는 경쟁이 발생하지 않는다.
+  - 하지만 @Transactional을 붙이는 순간 경쟁이 발생하게 된다.
+- 정리
+  - @Transactional을 붙이면 save() 시점에 즉시 UPDATE가 실행되지 않고, 트랜잭션 커밋 시점에 flush 된다. 
+  - 그 사이에 락은 이미 해제되고 DB에는 아직 반영되지 않은 상태가 된다. 
+  - 다음 스레드는 이전 값을 다시 조회하게 되고, 그 결과 값 유실(Lost Update)이 발생한다. 
+  - synchronized나 ReentrantLock은 자바 코드 실행만 보호하며 DB 커밋 시점까지는 보호하지 못한다. 
+  - 공유 자원이 DB라면 JVM 락이 아니라 DB 레벨의 동시성 제어가 필요하다.
+
 ## 실습
 ### 3.4. 실습 환경 만들기
 - 순서
@@ -102,7 +112,7 @@
 - 정리
   - 동시성에 대한 고려를 하지 않으면, 경쟁 상태로 인하여 의도하지 않은 결과를 초래할 수 있다.
 
-### 4.9. 공유 DB에 사용하는 syncronized, ReentrantLock
+### 4.9. 공유 DB에 사용하는 synchronized, ReentrantLock
 - 순서
   - product_entity 테이블에 데이터 밀어넣기 (id=1 / stock=0)
   - k6 실행 > DB로 데이터 확인
@@ -110,3 +120,12 @@
   - 1000번 호출 -> 조회되는값은 1000
 - 정리
   - synchronized 혹은 ReentrantLock을 사용하면, 정확히 1000이 증가한다.
+
+### 4.10. Transactional 애노테이션 이해하기
+- 순서
+  - product_entity 테이블에 데이터 밀어넣기 (id=1 / stock=0)
+  - k6 실행 > DB로 데이터 확인
+- 결과
+  - 1000번 호출 -> 조회되는 값은 1000이 아님
+- 정리
+  - @Transactional 어노테이션과 synchronized 혹은 ReentrantLock을 사용하면, 다시 경쟁이 발생한다.

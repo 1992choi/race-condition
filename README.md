@@ -85,6 +85,48 @@
   - 또한 트랜잭션 수행 시간이 길어질수록 락 점유 시간이 증가해 처리량이 급격히 감소한다. 
   - 따라서 동작은 하지만 구조적으로 권장되지 않는 임시 해결책에 가깝다.
 
+### 트랜잭션 격리수준
+- 종류
+  - Isolation.DEFAULT
+    - 데이터베이스의 기본 트랜잭션 격리 수준을 그대로 따른다.
+    - MySQL(InnoDB)의 기본 격리 수준은 REPEATABLE_READ이다.
+    - PostgreSQL의 기본 격리 수준은 READ_COMMITTED이다.
+  - Isolation.READ_UNCOMMITTED
+    - 커밋되지 않은 데이터까지 읽을 수 있는 격리 수준이다.
+    - 이론적으로 Dirty Read가 발생할 수 있다.
+    - 하지만 MySQL(InnoDB)는 Dirty Read를 허용하지 않기 때문에,
+      READ_UNCOMMITTED로 설정해도 실제 동작은 READ_COMMITTED와 동일하다.
+  - Isolation.READ_COMMITTED
+    - 커밋이 완료된 데이터만 읽을 수 있다.
+    - Dirty Read는 방지한다.
+    - 같은 트랜잭션에서 같은 행을 다시 읽었을 때 값이 달라질 수 있다.
+    - Non-repeatable Read가 발생할 수 있다.
+  - Isolation.REPEATABLE_READ
+    - 같은 트랜잭션 내에서 같은 행을 여러 번 조회해도 값이 변하지 않는다.
+    - Non-repeatable Read를 방지한다.
+    - 이론적으로 팬텀 리드가 발생할 수 있다.
+    - MySQL(InnoDB)는 Gap Lock을 사용하여 대부분의 팬텀 리드를 방지한다.
+  - Isolation.SERIALIZABLE
+    - 트랜잭션을 순차적으로 실행한 것과 동일한 격리를 제공한다.
+    - Dirty Read, Non-repeatable Read, 팬텀 리드를 모두 방지한다.
+    - 동시성이 크게 제한되어 성능 비용이 가장 크다.
+- Dirty Read / Non-repeatable Read / 팬텀 리드
+  - Dirty Read
+    - 아직 커밋되지 않은 데이터를 다른 트랜잭션이 읽는 현상이다.
+    - 이후 트랜잭션이 롤백되면, 실제로 존재하지 않는 데이터를 읽은 문제가 발생한다.
+    - READ_UNCOMMITTED 격리 수준에서 이론적으로 발생할 수 있다.
+    - MySQL(InnoDB)에서는 Dirty Read를 허용하지 않는다.
+  - Non-repeatable Read
+    - 같은 트랜잭션에서 같은 행을 두 번 조회했을 때 값이 달라지는 현상이다.
+    - 다른 트랜잭션의 UPDATE로 인해 발생한다.
+    - READ_COMMITTED 격리 수준에서 발생할 수 있다.
+    - REPEATABLE_READ 이상에서는 방지된다.
+  - 팬텀 리드 (Phantom Read)
+    - 같은 조건으로 조회했을 때 이전에는 없던 행이 새로 나타나거나 사라지는 현상이다.
+    - 다른 트랜잭션의 INSERT 또는 DELETE로 인해 발생한다.
+    - REPEATABLE_READ 이하에서 이론적으로 발생할 수 있다.
+    - MySQL(InnoDB)에서는 Gap Lock을 통해 대부분 방지된다. 
+
 ## 실습
 ### 3.4. 실습 환경 만들기
 - 순서

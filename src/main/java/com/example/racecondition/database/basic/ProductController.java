@@ -12,9 +12,16 @@ public class ProductController {
 
     private final ProductService productService;
 
+    private final ProductOrchestratorService productOrchestratorService;
+
     @PostMapping("/stock")
     public Long postStock() {
         return productService.increaseStock();
+    }
+
+    @PostMapping("/stock-tran")
+    public Long postStockTran() {
+        return productOrchestratorService.increaseStockWithTran();
     }
 
 }

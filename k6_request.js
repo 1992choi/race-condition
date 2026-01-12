@@ -15,5 +15,8 @@ export default function () {
     // http.post('http://localhost:8080/variable/stock-atomic');
 
     // 4.8
-    http.post('http://localhost:8080/basic/stock');
+    // http.post('http://localhost:8080/basic/stock');
+
+    // 4.11
+    http.post('http://localhost:8080/basic/stock-tran');
 }

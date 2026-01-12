@@ -55,4 +55,14 @@ public class ProductService {
         return save.getStock();
     }
 
+    // 4.11. 코드
+    @Transactional
+    public Long increaseStockWithTran() {
+        ProductEntity productEntity = productRepository.findById(1L).get();
+        productEntity.setStock(productEntity.getStock() + 1);
+        ProductEntity save = productRepository.save(productEntity);
+
+        return save.getStock();
+    }
+
 }

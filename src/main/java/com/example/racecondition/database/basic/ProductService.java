@@ -1,8 +1,9 @@
 package com.example.racecondition.database.basic;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -58,6 +59,17 @@ public class ProductService {
     // 4.11. 코드
     @Transactional
     public Long increaseStockWithTran() {
+        ProductEntity productEntity = productRepository.findById(1L).get();
+        productEntity.setStock(productEntity.getStock() + 1);
+        ProductEntity save = productRepository.save(productEntity);
+
+        return save.getStock();
+    }
+
+    // 4.12. 코드
+    // @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public Long increaseStockWithIsolation() {
         ProductEntity productEntity = productRepository.findById(1L).get();
         productEntity.setStock(productEntity.getStock() + 1);
         ProductEntity save = productRepository.save(productEntity);

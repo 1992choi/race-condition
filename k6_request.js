@@ -3,7 +3,7 @@ import http from 'k6/http';
 // 테스트 옵션 설정
 export const options = {
     vus: 100,          // 동시에 실행할 가상 사용자 수 (동시 요청)
-    iterations: 1000,   // 전체 요청 횟수
+    iterations: 100,   // 전체 요청 횟수
 };
 
 // 테스트 시나리오
@@ -18,5 +18,8 @@ export default function () {
     // http.post('http://localhost:8080/basic/stock');
 
     // 4.11
-    http.post('http://localhost:8080/basic/stock-tran');
+    // http.post('http://localhost:8080/basic/stock-tran');
+
+    // 4.12
+    http.post('http://localhost:8080/basic/stock-isolation');
 }

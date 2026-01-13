@@ -190,3 +190,19 @@
 - 정리
   - 트랜잭션 시작보다 lock을 먼저 잡는다면,
     - Transactional 어노테이션과 synchronized 혹은 ReentrantLock을 함께 사용해도 문제가 발생하지 않는다.
+
+### 4.12. 트랜잭션 격리 수준 설정으로 동시성 문제 해결하기
+- 순서
+  - product_entity 테이블에 데이터 밀어넣기 (id=1 / stock=0)
+  - 격리레벨을 READ_COMMITTED로 설정 후
+    - k6 실행(요청횟수 100으로 줄이기) > DB로 데이터 확인
+  - 격리레벨을 REPEATABLE_READ로 설정 후
+    - k6 실행(요청횟수 100으로 줄이기) > DB로 데이터 확인
+- 결과
+  - 격리레벨을 READ_COMMITTED로 설정
+    - 100번 호출 -> 조회되는 값은 100이 아님
+  - 격리레벨을 REPEATABLE_READ로 설정
+    - 100번 호출 -> 조회되는 값은 100
+- 정리
+  - 격리레벨을 REPEATABLE_READ보다 낮게 설정할 경우
+    - 경쟁으로 인한 충돌을 파악하지 못하여 재처리 로직(= 여기에서는 while문)이 실행되지 않는다. 

@@ -24,4 +24,9 @@ public class ProductController {
         return productOrchestratorService.increaseStockWithTran();
     }
 
+    @PostMapping("/stock-isolation")
+    public Long postStockIsolation() {
+        return productOrchestratorService.increaseStockWithIsolation();
+    }
+
 }

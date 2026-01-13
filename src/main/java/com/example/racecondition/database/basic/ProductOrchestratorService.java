@@ -20,4 +20,14 @@ public class ProductOrchestratorService {
         return l;
     }
 
+    public Long increaseStockWithIsolation() {
+        while (true) {
+            try {
+                return productService.increaseStockWithIsolation();
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        }
+    }
+
 }

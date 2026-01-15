@@ -171,7 +171,31 @@
 - 사용 예
   - JPA에서 `@Lock(LockModeType.PESSIMISTIC_WRITE)`를 사용한다.
   - 조회 시점에 DB 행 락을 통해 동시 수정 접근을 차단한다.
-
+- LockModeType 종류
+  - LockModeType.NONE
+    - 락을 사용하지 않는다.
+    - 기본값이며, 별도의 락 동작을 수행하지 않는다.
+  - LockModeType.OPTIMISTIC
+    - 낙관적 락을 사용한다.
+    - 트랜잭션 커밋 시점에 버전 충돌 여부를 검사한다.
+    - 버전 값이 변경되었을 경우 예외가 발생한다.
+  - LockModeType.OPTIMISTIC_FORCE_INCREMENT
+    - 낙관적 락을 사용하면서 버전 값을 강제로 증가시킨다.
+    - 실제 데이터 변경이 없더라도 버전이 증가한다.
+    - 이후 트랜잭션의 충돌을 유도하기 위한 용도로 사용한다.
+  - LockModeType.PESSIMISTIC_READ
+    - 읽기 락(Read Lock)을 획득한다.
+    - 다른 트랜잭션의 쓰기는 차단한다.
+    - 다른 트랜잭션의 읽기는 허용한다.
+    - DBMS에 따라 실제 동작이 다를 수 있다.
+  - LockModeType.PESSIMISTIC_WRITE
+    - 쓰기 락(Write Lock)을 획득한다.
+    - 다른 트랜잭션의 읽기 및 쓰기 접근을 차단한다.
+    - 내부적으로 `SELECT ... FOR UPDATE` 쿼가 실행된다.
+  - LockModeType.PESSIMISTIC_FORCE_INCREMENT
+    - 쓰기 락을 획득한다.
+    - 동시에 버전 컬럼을 강제로 증가시킨다.
+    - 비관적 락과 낙관적 락을 함께 사용하는 방식이다.
 
 
 ## 실습

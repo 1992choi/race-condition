@@ -21,8 +21,11 @@ export default function () {
     // http.post('http://localhost:8080/basic/stock-tran');
 
     // 4.13
-    http.post('http://localhost:8080/basic/stock-isolation');
+    // http.post('http://localhost:8080/basic/stock-isolation');
 
     // 4.14
-    http.post('http://localhost:8080/opti/stock');
+    // http.post('http://localhost:8080/opti/stock');
+
+    // 4.15
+    http.post('http://localhost:8080/pessi/stock');
 }

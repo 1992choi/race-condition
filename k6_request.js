@@ -3,7 +3,7 @@ import http from 'k6/http';
 // 테스트 옵션 설정
 export const options = {
     vus: 100,          // 동시에 실행할 가상 사용자 수 (동시 요청)
-    iterations: 1000,   // 전체 요청 횟수
+    iterations: 100,   // 전체 요청 횟수
 };
 
 // 테스트 시나리오
@@ -30,6 +30,14 @@ export default function () {
     // http.post('http://localhost:8080/pessi/stock');
 
     // 5.18
-    http.post('http://localhost:8080/basic/stock-distributed');
-    http.post('http://localhost:8081/basic/stock-distributed');
+    // http.post('http://localhost:8080/basic/stock-distributed');
+    // http.post('http://localhost:8081/basic/stock-distributed');
+
+    // 5.19
+    // 낙관적 락 사용예제
+    // http.post('http://localhost:8080/opti/stock');
+    // http.post('http://localhost:8081/opti/stock');
+    // 비관적 락 사용예제
+    http.post('http://localhost:8080/pessi/stock');
+    http.post('http://localhost:8081/pessi/stock');
 }

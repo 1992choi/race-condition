@@ -29,4 +29,9 @@ public class ProductController {
         return productOrchestratorService.increaseStockWithIsolation();
     }
 
+    @PostMapping("/stock-distributed")
+    public Long postStockDistributedSystem() {
+        return productService.increaseStockWithDistributedSystem();
+    }
+
 }

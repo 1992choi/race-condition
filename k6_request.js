@@ -27,5 +27,9 @@ export default function () {
     // http.post('http://localhost:8080/opti/stock');
 
     // 4.15
-    http.post('http://localhost:8080/pessi/stock');
+    // http.post('http://localhost:8080/pessi/stock');
+
+    // 5.18
+    http.post('http://localhost:8080/basic/stock-distributed');
+    http.post('http://localhost:8081/basic/stock-distributed');
 }

@@ -77,4 +77,15 @@ public class ProductService {
         return save.getStock();
     }
 
+    // 5.18. 코드
+    public Long increaseStockWithDistributedSystem() {
+        lock.lock();
+        ProductEntity productEntity = productRepository.findById(1L).get();
+        productEntity.setStock(productEntity.getStock() + 1);
+        ProductEntity save = productRepository.save(productEntity);
+        lock.unlock();
+
+        return save.getStock();
+    }
+
 }

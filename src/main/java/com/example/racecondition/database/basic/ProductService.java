@@ -44,7 +44,7 @@ public class ProductService {
 //        return save.getStock();
 //    }
 
-    // 4.11. 코드 (@Transactional과 synchronized 혹은 ReentrantLock 같이 사용)
+    // 4.10. 코드 (@Transactional과 synchronized 혹은 ReentrantLock 같이 사용 - 경쟁 발생 O)
     @Transactional
     public Long increaseStock() {
         lock.lock();
@@ -56,7 +56,7 @@ public class ProductService {
         return save.getStock();
     }
 
-    // 4.12. 코드
+    // 4.11. 코드 (@Transactional과 synchronized 혹은 ReentrantLock 같이 사용 - 경쟁 발생 X)
     @Transactional
     public Long increaseStockWithTran() {
         ProductEntity productEntity = productRepository.findById(1L).get();

@@ -88,4 +88,16 @@ public class ProductService {
         return save.getStock();
     }
 
+    // 5.20. 코드 (4.10과 동일한 코드. 4.10에서는 경쟁을 해결하지 못하였음)
+    @Transactional
+    public Long increaseStockWithRedisson() {
+        lock.lock();
+        ProductEntity productEntity = productRepository.findById(1L).get();
+        productEntity.setStock(productEntity.getStock() + 1);
+        ProductEntity save = productRepository.save(productEntity);
+        lock.unlock();
+
+        return save.getStock();
+    }
+
 }

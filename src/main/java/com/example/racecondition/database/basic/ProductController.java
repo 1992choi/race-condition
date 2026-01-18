@@ -34,4 +34,9 @@ public class ProductController {
         return productService.increaseStockWithDistributedSystem();
     }
 
+    @PostMapping("/stock-redisson")
+    public Long postStockRedisson() {
+        return productOrchestratorService.increaseStockWithRedisson();
+    }
+
 }

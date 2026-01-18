@@ -1,8 +1,11 @@
 package com.example.racecondition.database.basic;
 
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Service
@@ -28,6 +31,23 @@ public class ProductOrchestratorService {
                 System.out.println(e.toString());
             }
         }
+    }
+
+    private final RedissonClient redissonClient;
+
+    public Long increaseStockWithRedisson() {
+        RLock lock = redissonClient.getLock("lock");
+
+        try {
+            if (lock.tryLock(10, 5, TimeUnit.SECONDS)) {
+                return productService.increaseStockWithRedisson();
+            }
+        } catch (Exception e) {
+        } finally {
+            lock.unlock();
+        }
+
+        return -1L;
     }
 
 }

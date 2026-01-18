@@ -14,10 +14,10 @@ export default function () {
     // 3.6
     // http.post('http://localhost:8080/variable/stock-atomic');
 
-    // 4.8
+    // 4.8 ~ 4.11
     // http.post('http://localhost:8080/basic/stock');
 
-    // 4.11
+    // 4.12
     // http.post('http://localhost:8080/basic/stock-tran');
 
     // 4.13

@@ -42,6 +42,10 @@ export default function () {
     // http.post('http://localhost:8081/pessi/stock');
 
     // 5.21
-    http.post('http://localhost:8080/basic/stock-redisson');
-    http.post('http://localhost:8081/basic/stock-redisson');
+    // http.post('http://localhost:8080/basic/stock-redisson');
+    // http.post('http://localhost:8081/basic/stock-redisson');
+
+    // 5.23
+    http.post('http://localhost:8080/opti/stock-redisson');
+    http.post('http://localhost:8081/opti/stock-redisson');
 }

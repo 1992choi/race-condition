@@ -17,4 +17,9 @@ public class ProductOptiController {
         return service.increaseStockWithOpti();
     }
 
+    @PostMapping("stock-redisson")
+    public Long postStockRedisson() {
+        return service.increaseStockWithRedisson();
+    }
+
 }

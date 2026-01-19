@@ -12,9 +12,16 @@ public class ProductPessiController {
 
     private final ProductPessiService service;
 
+    private final ProductPessiOrchestratorService orchestratorService;
+
     @PostMapping("/stock")
     public Long postStock() {
         return service.increaseStock();
+    }
+
+    @PostMapping("/stock-redisson")
+    public Long postStockRedisson() {
+        return orchestratorService.increaseStockWithRedisson();
     }
 
 }
